@@ -35,8 +35,8 @@ b_value = 0.0
 
 def update_vjoy(vjoy):
         # Full brake applied to both axis when no rudder is applied.
-        lb_value = b_value * (1.0 - r_value)
-        rb_value = b_value * (1.0 + r_value)
+        lb_value = 1.0 - 2.0 * (b_value * (1.0 - r_value))
+        rb_value = 1.0 - 2.0 * (b_value * (1.0 + r_value))
 
         vjoy[va_rb.vjoy_id].axis(va_rb.input_id).value = lb_value
         vjoy[va_lb.vjoy_id].axis(va_lb.input_id).value = rb_value
