@@ -8,6 +8,11 @@ pa_r = PhysicalInputVariable(
         "Physical Rudder axis input",
         [gremlin.common.InputType.JoystickAxis]
 )
+flip_rudder = BoolVariable(
+        "Flip Physical Rudder Axis",
+        "Default right down is positive",
+        False
+)
 pa_b = PhysicalInputVariable(
         "Physical Brake Axis",
         "Physical Brake axis input",
@@ -29,14 +34,16 @@ mode = ModeVariable("Mode", "Mode in which to use these settings")
 dec_r = pa_r.create_decorator(mode.value)
 dec_b = pa_b.create_decorator(mode.value)
 
+flip_rudder_mod = -1 if flip_rudder.value else 1
+
 # Storage for the last known axis values
 r_value = 0.0
 b_value = 0.0
 
 def update_vjoy(vjoy):
         # Full brake applied to both axis when no rudder is applied.
-        lb_value = 1.0 - 2.0 * (b_value * (1.0 - r_value))
-        rb_value = 1.0 - 2.0 * (b_value * (1.0 + r_value))
+        lb_value = 1.0 - 2.0 * (b_value * (1.0 - r_value * flip_rudder_mod))
+        rb_value = 1.0 - 2.0 * (b_value * (1.0 + r_value * flip_rudder_mod))
 
         vjoy[va_rb.vjoy_id].axis(va_rb.input_id).value = lb_value
         vjoy[va_lb.vjoy_id].axis(va_lb.input_id).value = rb_value
