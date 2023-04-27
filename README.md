@@ -3,6 +3,9 @@ For use with: https://whitemagic.github.io/JoystickGremlin/
 # Plugins
 
 ## Differental_Breaking_With_Lever
+### Requirements
+1. Joystick axis
+2. Rudder Pedals axis
 
 ### Design Choices
 1. Full braking is possible with no rudder appication.
